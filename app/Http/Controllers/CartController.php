@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 
 class CartController extends Controller
 {
@@ -26,9 +28,37 @@ class CartController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
-        //
+        $validated = $request->validate([
+            'id' => 'required',
+            'amount' => 'required'
+        ]);
+
+        $user = $request->user();
+        $product = Product::where('id', '=', $validated['id'])->first();
+        if($product === null) //If product not found, throw error
+        {
+            throw new \Exception('Product not found', 404);
+        }
+        
+        $cart = Cart::where([
+            ['user_id', '=', $user->id],
+            ['product_id', '=', $product->id]
+        ])->first(); //Check if current item is already in cart, of so, update amount
+
+        if ($cart === null) {
+            Cart::create([
+                'user_id' => $user->id,
+                'product_id' => $product->id,
+                'amount' => $validated['amount']
+            ]);
+        } else {
+            $cart->amount += $validated['amount'];
+            $cart->save();
+        }
+
+        return redirect(route('cart.index'));
     }
 
     /**

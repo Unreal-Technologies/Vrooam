@@ -10,6 +10,7 @@
             
             @foreach ($products as $product)
             <form method="POST" action="{{ route('cart.store', ['id' => $product->id]) }}">
+                @csrf
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
                         {{ $product->description }}

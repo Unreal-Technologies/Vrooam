@@ -6,7 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class User extends Authenticatable
 {
@@ -46,12 +46,12 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-    
+
     /**
      * @return HasOne
      */
-    public function carts(): HasMany
+    public function cart(): HasOne
     {
-        return $this -> hasMany(Cart::class);
+        return $this -> hasOne(Cart::class);
     }
 }
