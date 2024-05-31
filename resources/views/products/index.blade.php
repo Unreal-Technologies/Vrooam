@@ -13,7 +13,7 @@
                 @csrf
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
-                        {{ $product->description }}
+                        <p>{{ $product->description }}</p>
                         <span style='float: right;'>
                             &euro; {{ number_format($product->price, 2, ',', '.') }} 
                             <input value='1' type='number' min="1" max='255' name='amount' />
@@ -21,6 +21,7 @@
                         </span>
                         <hr />
                         {{ $product->text }}
+                        <br /><br/>
                     </div>
                 </div>
             </form>

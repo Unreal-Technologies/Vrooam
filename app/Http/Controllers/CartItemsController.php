@@ -66,13 +66,13 @@ class CartItemsController extends Controller
         if($amount === 0)
         {
             $item->delete();
-            return redirect(route('cart.index'));
+            return redirect(route('cart.index'))->with('status', 'item-deleted')->with('product', $item->product()->description);
         }
         
         $item->amount = $amount;
         $item->save();
         
-        return redirect(route('cart.index'));
+        return redirect(route('cart.index'))->with('status', 'item-updated-'.$id);
     }
 
     /**
