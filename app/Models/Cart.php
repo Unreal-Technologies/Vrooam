@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Product;
+use Illuminate\Database\Eloquent\Collection;
 
 class Cart extends Model
 {
@@ -57,6 +58,14 @@ class Cart extends Model
             ])->first();
         }
         return $cart;
+    }
+    
+    /**
+     * @return Collection
+     */
+    public function items(): Collection
+    {
+        return CartItems::where('cart_id', '=', $this->id)->get();
     }
     
     /**

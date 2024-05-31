@@ -3,8 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
-use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\CartItemsController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -27,12 +27,13 @@ Route::resource('cart', CartController::class)
     ])
     -> middleware(['auth', 'verified']);
 
+Route::resource('cartitems', CartItemsController::class)
+    -> only(['update'])
+    -> middleware(['auth', 'verified']);
+
 Route::resource('products', ProductsController::class)
     -> only(['index', 'store'])
     -> middleware(['auth', 'verified']);
 
-Route::resource('product', ProductController::class)
-    -> only(['index', 'store'])
-    -> middleware(['auth', 'verified']);
 
 require __DIR__.'/auth.php';
