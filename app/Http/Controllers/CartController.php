@@ -6,15 +6,32 @@ use App\Models\Cart;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
+use App\DTO\CartItemDto;
+use App\Models\User;
 
 class CartController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): View
     {
-        //
+        $user = User::where('id', '=', auth()->id())->first();
+        if ($user === null) { //If product not found, throw error
+            throw new \Exception('User not found', 404);
+        }
+        $dtoItems = CartItemDto::fromCart($user->cart());
+
+        $sum = 0;
+        foreach ($dtoItems as $item) {
+            $sum += $item->price();
+        }
+
+        return view('cart.index', [
+            'items' => $dtoItems,
+            'sum' => $sum
+        ]);
     }
 
     /**
@@ -36,27 +53,14 @@ class CartController extends Controller
         ]);
 
         $user = $request->user();
+
         $product = Product::where('id', '=', $validated['id'])->first();
-        if($product === null) //If product not found, throw error
-        {
+        if ($product === null) { //If product not found, throw error
             throw new \Exception('Product not found', 404);
         }
-        
-        $cart = Cart::where([
-            ['user_id', '=', $user->id],
-            ['product_id', '=', $product->id]
-        ])->first(); //Check if current item is already in cart, of so, update amount
 
-        if ($cart === null) {
-            Cart::create([
-                'user_id' => $user->id,
-                'product_id' => $product->id,
-                'amount' => $validated['amount']
-            ]);
-        } else {
-            $cart->amount += $validated['amount'];
-            $cart->save();
-        }
+        $cart = $user->cart();
+        $cart->addOrUpdateProduct($product, $validated['amount']);
 
         return redirect(route('cart.index'));
     }

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use App\Models\Cart;
 
 class User extends Authenticatable
 {
@@ -48,10 +49,10 @@ class User extends Authenticatable
     }
 
     /**
-     * @return HasOne
+     * @return Cart
      */
-    public function cart(): HasOne
+    public function cart(): Cart
     {
-        return $this -> hasOne(Cart::class);
+        return Cart::getByUser($this);
     }
 }
