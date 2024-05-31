@@ -58,4 +58,13 @@ class Cart extends Model
         }
         return $cart;
     }
+    
+    /**
+     * @param int $id
+     * @return CartItems|null
+     */
+    public function getItem(int $id): ?CartItems
+    {
+        return CartItems::fromId($id);
+    }
 }

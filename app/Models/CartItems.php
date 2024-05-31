@@ -20,4 +20,13 @@ class CartItems extends Model
     {
         return Product::where('id', '=', $this->product_id)->first();
     }
+    
+    /**
+     * @param int $id
+     * @return CartItems|null
+     */
+    public static function fromId(int $id): ?CartItems
+    {
+        return self::where('id', '=', $id)->first();
+    }
 }

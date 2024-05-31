@@ -21,7 +21,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('cart', CartController::class)
-    -> only(['index', 'store'])
+    -> only(['index', 'store', 'update', 'destroy'])
     -> parameters([
         'id' => 'id'
     ])

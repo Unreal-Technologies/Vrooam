@@ -55,4 +55,13 @@ class User extends Authenticatable
     {
         return Cart::getByUser($this);
     }
+
+    /**
+     * @param int $id
+     * @return User|null
+     */
+    public static function fromId(int $id): ?User
+    {
+        return self::where('id', '=', $id)->first();
+    }
 }

@@ -17,10 +17,11 @@ class CartController extends Controller
      */
     public function index(): View
     {
-        $user = User::where('id', '=', auth()->id())->first();
+        $user = User::fromId(auth()->id());
         if ($user === null) { //If product not found, throw error
             throw new \Exception('User not found', 404);
         }
+        $cart = $user->cart();
         $dtoItems = CartItemDto::fromCart($user->cart());
 
         $sum = 0;
@@ -30,7 +31,8 @@ class CartController extends Controller
 
         return view('cart.index', [
             'items' => $dtoItems,
-            'sum' => $sum
+            'sum' => $sum,
+            'cart' => $cart
         ]);
     }
 
@@ -84,9 +86,27 @@ class CartController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Cart $cart)
+    public function update(Request $request, Cart $cart): RedirectResponse
     {
-        //
+        $validated = $request->validate([
+            'id' => 'required',
+            'amount' => 'required'
+        ]);
+        
+        $id = $validated['id'];
+        $amount = (int)$validated['amount'];
+        $item = $cart->getItem($id);
+        
+        if($amount === 0)
+        {
+            $item->delete();
+            return redirect(route('cart.index'));
+        }
+
+        $item->amount = $amount;
+        $item->save();
+        
+        return redirect(route('cart.index'));
     }
 
     /**
@@ -94,6 +114,7 @@ class CartController extends Controller
      */
     public function destroy(Cart $cart)
     {
-        //
+        echo 'DESTROY';
+        exit;
     }
 }
