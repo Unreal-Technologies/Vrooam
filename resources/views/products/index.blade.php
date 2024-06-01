@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Products') }}
+            {{ __('Producten') }}
         </h2>
     </x-slot>
 
@@ -17,7 +17,7 @@
                         <span style='float: right;'>
                             &euro; {{ number_format($product->price, 2, ',', '.') }} 
                             <input value='1' type='number' min="1" max='255' name='amount' />
-                            <x-primary-button class="mt-4">{{ __('Add To Cart') }}</x-primary-button>
+                            <x-primary-button class="mt-4">{{ __('Toevoegen aan winkelwagen') }}</x-primary-button>
                         </span>
                         <hr />
                         {{ $product->text }}

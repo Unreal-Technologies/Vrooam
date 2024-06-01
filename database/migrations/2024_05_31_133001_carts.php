@@ -12,15 +12,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('coupons', function(Blueprint $table)
-        {
+        Schema::create('coupons', function (Blueprint $table) {
             $table->id();
             $table->string('code');
             $table->float('discount');
             $table->enum('type', CouponTypes::values());
             $table->timestamps();
         });
-        
+
         Schema::create('carts', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');

@@ -11,6 +11,63 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
+        <style type="text/css">
+            html *
+            {
+                font-family: monospace;
+                font-size: 12pt;
+            }
+            
+            #cart-totals table, #cart-totals td, #cart-item table, #cart-item td
+            {
+                width: 100%;
+                white-space: nowrap;
+                text-align: right;
+            }
+            
+            #cart-item td
+            {
+                text-align: left;
+                width: 1px;
+            }
+            
+            #cart-item td:last-child
+            {
+                text-align: right;
+                width: 100%;
+            }
+            
+            #cart-totals td, #cart-item td
+            {
+                vertical-align: top;
+            }
+            
+            #cart-totals td:first-child
+            {
+                text-align: left;
+            }
+            
+            #cart-totals tr td:last-child
+            {
+                font-weight: bold;
+            }
+            
+            #cart-totals td *, #cart-item td *
+            {
+                margin: 0px;
+                white-space: nowrap;
+            }
+            
+            #cart-totals hr
+            {
+                border-color: black;
+            }
+            
+            input[type='text']
+            {
+                max-width: 250px;
+            }
+        </style>
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>

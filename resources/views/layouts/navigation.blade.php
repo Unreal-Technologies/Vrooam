@@ -16,10 +16,10 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     <x-nav-link :href="route('products.index')" :active="request()->routeIs('products.index')">
-                        {{ __('Products') }}
+                        {{ __('Producten') }}
                     </x-nav-link>
                     <x-nav-link :href="route('cart.index')" :active="request()->routeIs('cart.index')">
-                        {{ __('Cart') }}
+                        {{ __('Winkelwagen ( '.number_format(Auth::user()->cart()->itemCount(), 0, ',', '.').' )') }}
                     </x-nav-link>
                 </div>
             </div>

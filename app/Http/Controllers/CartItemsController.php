@@ -62,17 +62,16 @@ class CartItemsController extends Controller
         ]);
 
         $amount = (int)$validated['amount'];
-        
-        if($amount === 0)
-        {
+
+        if ($amount === 0) {
             $item->delete();
             return redirect(route('cart.index'))->with('status', 'item-deleted')->with('product', $item->product()->description);
         }
-        
+
         $item->amount = $amount;
         $item->save();
-        
-        return redirect(route('cart.index'))->with('status', 'item-updated-'.$id);
+
+        return redirect(route('cart.index'))->with('status', 'item-updated-' . $id);
     }
 
     /**
