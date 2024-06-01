@@ -31,9 +31,15 @@ class ProductsController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): View
     {
-        //
+        return view('products.entry', [
+            'route' => 'products.store',
+            'description' => null,
+            'code' => null,
+            'price' => 0,
+            'text' => null
+        ]);
     }
 
     /**
@@ -41,7 +47,15 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'code' => 'required',
+            'description' => 'required',
+            'price' => 'required|numeric|gt:0',
+            'text' => 'required'
+        ]);
+        
+        Product::factory()->create($validated);
+        return redirect(route('products.editlist'));
     }
 
     /**

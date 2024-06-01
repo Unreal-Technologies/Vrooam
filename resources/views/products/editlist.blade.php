@@ -7,38 +7,50 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            
-            @foreach ($products as $product)
-            <form method="POST" action="{{ route('cart.store', ['id' => $product->id]) }}">
-                @csrf
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900">
-                        <table class="product-editlist">
-                            <tr>
-                                <td>Omschrijving:&nbsp;</td>
-                                <td>{{ $product->description }}</td>
-                                <td rowspan="4">
-                                    --buttons--
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Artiekel Nummer:&nbsp;</td>
-                                <td>{{ $product->code }}</td>
-                            </tr>
-                            <tr>
-                                <td>Prijs:&nbsp;</td>
-                                <td>&euro; {{ number_format($product->price, 2, ',', '.') }}</td>
-                            </tr>
-                            <tr>
-                                <td>Omschrijving:&nbsp;</td>
-                                <td>{{ $product->text }}</td>
-                            </tr>
-                        </table>
-                    </div>
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900">
+                    <form method="get" action="{{ route('products.create') }}">
+                        <x-primary-button class="mt-4">{{ __('Toevoegen') }}</x-primary-button>
+                    </form>
                 </div>
-            </form>
+            </div>
+            <br />
+            @foreach ($products as $product)
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900">
+                    <table class="product-editlist">
+                        <tr>
+                            <td>Omschrijving:&nbsp;</td>
+                            <td>{{ $product->description }}</td>
+                            <td rowspan="4">
+                                --edit--
+                                --remove--
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Artiekel Nummer:&nbsp;</td>
+                            <td>{{ $product->code }}</td>
+                        </tr>
+                        <tr>
+                            <td>Prijs:&nbsp;</td>
+                            <td>&euro; {{ number_format($product->price, 2, ',', '.') }}</td>
+                        </tr>
+                        <tr>
+                            <td>Omschrijving:&nbsp;</td>
+                            <td>{{ $product->text }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
             <br />
             @endforeach
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900">
+                    <form method="get" action="{{ route('products.create') }}">
+                        <x-primary-button class="mt-4">{{ __('Toevoegen') }}</x-primary-button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </x-app-layout>

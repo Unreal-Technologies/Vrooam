@@ -41,7 +41,7 @@ Route::resource('cartitems', CartItemsController::class)
     -> middleware(['auth', 'verified']);
 
 Route::resource('products', ProductsController::class)
-    -> only(['index', 'store'])
+    -> only(['index', 'store', 'create'])
     -> middleware(['auth', 'verified']);
 
 Route::get('products.editlist', [ProductsController::class, 'editlist'])
