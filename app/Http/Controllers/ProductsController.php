@@ -38,11 +38,11 @@ class ProductsController extends Controller
             'title' => 'Toevoegen',
             'route' => 'products.store',
             'method' => 'post',
+            'param' => [],
             'description' => null,
             'code' => null,
             'price' => 0,
-            'text' => null,
-            'param' => []
+            'text' => null
         ]);
     }
 
@@ -73,22 +73,12 @@ class ProductsController extends Controller
             'title' => 'Bewerken',
             'route' => 'products.update',
             'method' => 'patch',
+            'param' => [ 'product' => $product->id ],
             'description' => $product->description,
             'code' => $product->code,
             'price' => $product->price,
-            'text' => $product->text,
-            'param' => [ 'product' => $product->id ]
+            'text' => $product->text
         ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Products $products)
-    {
-        
-        
-        //
     }
 
     /**
@@ -112,8 +102,11 @@ class ProductsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Products $products)
+    public function destroy(int $id)
     {
-        //
+        $product = Product::fromId($id);
+        $product->delete();
+
+        return redirect(route('products.editlist'));
     }
 }

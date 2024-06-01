@@ -18,7 +18,7 @@
             @foreach ($products as $product)
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <table class="product-editlist">
+                    <table id="product-editlist">
                         <tr>
                             <td>Omschrijving:&nbsp;</td>
                             <td>{{ $product->description }}</td>
@@ -26,7 +26,14 @@
                                 <form method="get" action="{{ route('products.show', ['product' => $product->id]) }}">
                                     <x-primary-button class="mt-4">{{ __('Bewerken') }}</x-primary-button>
                                 </form>
-                                --remove--
+                                <br />
+                                <form method="post" action="{{ route('products.destroy', ['product' => $product->id]) }}">
+                                    @csrf
+                                    @method('delete')
+                                    <x-danger-button>
+                                        {{ __('Verwijderen') }}
+                                    </x-danger-button>
+                                </form>
                             </td>
                         </tr>
                         <tr>
