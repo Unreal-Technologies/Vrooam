@@ -61,46 +61,50 @@
                     <div class="p-6 text-gray-900">
                         <table id="cart-totals">
                             <tr>
-                                <td></td>
-                                <td>Subtotaal: </td>
-                                <td>&euro; {{ number_format($sum, 2, ',', '.') }}</td>
-                            </tr>
-                            <tr>
-                                <td>
+                                <td rowspan="3">
                                     @if ($coupon !== null)
                                         <span style='float:left;clear: both;'>
                                             <form method='post' action='{{ route('cart.removecoupon', ['cart' => $items[0]->cart_id]) }}'>
                                                 @csrf
                                                 <x-primary-button class="mt-4" style="clear: both;">{{ __('Coupon Verwijderen') }}</x-primary-button>
-                                                {!! $coupon->text() !!}
                                             </form>
                                         </span>
                                     @else
                                         <form method='post' action='{{ route('cart.addcoupon', ['cart' => $items[0]->cart_id]) }}'>
                                             @csrf
-                                            Coupon code:
+                                            <label for="code">Coupon code:</label>
                                             <input id="code" name="code" type="text" class="mt-1 block w-full" />
+                                            <x-primary-button class="mt-4">{{ __('Toevoegen') }}</x-primary-button>
                                             @error('code')
                                                 <div class="alert alert-danger">{{ $message }}</div>
                                             @enderror
-                                            <x-primary-button class="mt-4">{{ __('Toevoegen') }}</x-primary-button>
                                         </form>
                                     @endif
+                                    <br /><br />
+                                    <span style='float:left;clear: both;'>
+                                        <form method='post' action='{{ route('cart.destroy', ['cart' => $items[0]->cart_id]) }}'>
+                                            @csrf
+                                            @method('delete')
+                                            <x-danger-button class="ms-3">{{ __('Winkelwagen legen') }}</x-danger-button>
+                                        </form>
+                                    </span>
                                 </td>
-                                <td>Korting:</td>
-                                <td>&euro; {{ number_format($discount, 2, ',', '.') }}</td>
+                                <td></td>
+                                <td>Subtotaal:&nbsp;</td>
+                                <td>&euro; {{ number_format($sum, 2, ',', '.') }}</td>
                             </tr>
                             <tr>
                                 <td>
-                                    <form method='post' action='{{ route('cart.destroy', ['cart' => $items[0]->cart_id]) }}'>
-                                        @csrf
-                                        @method('delete')
-                                        <x-danger-button class="ms-3">
-                                            {{ __('Winkelwagen legen') }}
-                                        </x-danger-button>
-                                    </form>
+                                    @if ($coupon !== null)
+                                        {!! $coupon->text() !!}
+                                    @endif
                                 </td>
-                                <td>Totaal:</td>
+                                <td>Korting:&nbsp;</td>
+                                <td>&euro; {{ number_format($discount, 2, ',', '.') }}</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>Totaal:&nbsp;</td>
                                 <td>&euro; {{ number_format($total, 2, ',', '.') }}</td>
                             </tr>
                         </table>
