@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\CartItemsController;
+use App\Http\Controllers\CouponController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -22,6 +23,13 @@ Route::middleware('auth')->group(function () {
 
 Route::resource('cart', CartController::class)
     -> only(['index', 'store', 'update', 'destroy'])
+    -> parameters([
+        'id' => 'id'
+    ])
+    -> middleware(['auth', 'verified']);
+
+Route::resource('coupons', CouponController::class)
+    -> only(['index'])
     -> parameters([
         'id' => 'id'
     ])

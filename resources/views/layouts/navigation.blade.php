@@ -41,6 +41,9 @@
                         <x-dropdown-link :href="route('products.editlist')">
                             {{ __('Producten - Bewerken') }}
                         </x-dropdown-link>
+                        <x-dropdown-link :href="route('coupons.index')">
+                            {{ __('Kortings codes') }}
+                        </x-dropdown-link>
                     </x-slot>
                 </x-dropdown>
             </div>
