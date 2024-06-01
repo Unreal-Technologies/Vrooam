@@ -20,7 +20,7 @@ class CartItems extends Model
     {
         return Product::where('id', '=', $this->product_id)->first();
     }
-    
+
     /**
      * @param int $id
      * @return CartItems|null

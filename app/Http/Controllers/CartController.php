@@ -30,13 +30,11 @@ class CartController extends Controller
         foreach ($items as $item) {
             $sum += $item->amount * $item->product()->price;
         }
-        
+
         $discount = 0;
-        if($coupon !== null)
-        {
+        if ($coupon !== null) {
             $enum = \App\Logic\CouponTypes::from($coupon->type);
-            switch($enum)
-            {
+            switch ($enum) {
                 case \App\Logic\CouponTypes::Flat:
                     $discount = $coupon->discount;
                     break;
@@ -44,6 +42,9 @@ class CartController extends Controller
                     $discount = ($sum / 100) * $coupon -> discount;
                     break;
             }
+        }
+        if ($discount > $sum) { //Max discount possible if discount is greater than the total sum
+            $discount = $sum;
         }
 
         return view('cart.index', [
@@ -58,22 +59,20 @@ class CartController extends Controller
     public function removecoupon(Request $request, int $id): RedirectResponse
     {
         $cart = Cart::fromId($id);
-        if($cart === null)
-        {
-            throw new \Exception('Cannot find cart with id "'.$id.'"', 404);
+        if ($cart === null) {
+            throw new \Exception('Cannot find cart with id "' . $id . '"', 404);
         }
         $user = $request->user();
-        if($cart->user()->id !== $user->id)
-        {
+        if ($cart->user()->id !== $user->id) {
             throw new \Exception('Cart mismatch', 300);
         }
-        
+
         $cart->coupon_id = null;
         $cart->save();
-        
+
         return redirect(route('cart.index'));
     }
-    
+
     /**
      * @param Request $request
      * @param int $id
@@ -85,32 +84,28 @@ class CartController extends Controller
         $validated = $request->validate([
             'code' => 'required'
         ]);
-        
+
         $coupon = Coupon::byCode($validated['code']);
-        if($coupon === null)
-        {
-            throw ValidationException::withMessages(['code' => 'De coupon met code "'.$validated['code'].'" is niet gevonden.']);
+        if ($coupon === null) {
+            throw ValidationException::withMessages(['code' => 'De coupon met code "' . $validated['code'] . '" is niet gevonden.']);
         }
         $cart = Cart::fromId($id);
-        if($cart === null)
-        {
-            throw new \Exception('Cannot find cart with id "'.$id.'"', 404);
+        if ($cart === null) {
+            throw new \Exception('Cannot find cart with id "' . $id . '"', 404);
         }
         $user = $request->user();
-        if($cart->user()->id !== $user->id)
-        {
+        if ($cart->user()->id !== $user->id) {
             throw new \Exception('Cart mismatch', 300);
         }
-        if($coupon->isUsed($user))
-        {
-            throw ValidationException::withMessages(['code' => 'De coupon met code "'.$validated['code'].'" is al gebruikt.']);
+        if ($coupon->isUsed($user)) {
+            throw ValidationException::withMessages(['code' => 'De coupon met code "' . $validated['code'] . '" is al gebruikt.']);
         }
         $cart->coupon_id = $coupon->id;
         $cart->save();
-        
+
         return redirect(route('cart.index'));
     }
-    
+
     /**
      * Show the form for creating a new resource.
      */

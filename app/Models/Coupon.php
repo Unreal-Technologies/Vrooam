@@ -10,7 +10,7 @@ use App\Logic\CouponTypes;
 class Coupon extends Model
 {
     use HasFactory;
-    
+
     /**
      * @param int $id
      * @return Coupon|null
@@ -19,7 +19,7 @@ class Coupon extends Model
     {
         return self::where('id', '=', $id)->first();
     }
-    
+
     /**
      * @param string $code
      * @return Coupon|null
@@ -28,7 +28,7 @@ class Coupon extends Model
     {
         return self::where('code', '=', strtoupper($code))->first();
     }
-    
+
     /**
      * @param User $user
      * @return bool
@@ -40,20 +40,19 @@ class Coupon extends Model
             ['coupon_id', '=', $this->id]
         ])->exists();
     }
-    
+
     /**
      * @return string
      */
     public function text(): string
     {
-        $text = 'Coupon <b>"'.$this->code.'"</b>';
+        $text = 'Coupon <b>"' . $this->code . '"</b>';
         $enum = CouponTypes::from($this->type);
-        switch($enum)
-        {
+        switch ($enum) {
             case CouponTypes::Flat:
-                return $text.' (&euro; '.number_format($this->discount, 2, ',', '.').')';
+                return $text . ' (&euro; ' . number_format($this->discount, 2, ',', '.') . ')';
             case CouponTypes::Percentage:
-                return $text.' ('.number_format($this->discount, 2, ',', '.').' %)';
+                return $text . ' (' . number_format($this->discount, 2, ',', '.') . ' %)';
         }
     }
 }

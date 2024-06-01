@@ -60,7 +60,7 @@ class Cart extends Model
         }
         return $cart;
     }
-    
+
     /**
      * @return Collection
      */
@@ -68,7 +68,7 @@ class Cart extends Model
     {
         return CartItems::where('cart_id', '=', $this->id)->get();
     }
-    
+
     /**
      * @param int $id
      * @return CartItems|null
@@ -77,7 +77,7 @@ class Cart extends Model
     {
         return CartItems::fromId($id);
     }
-    
+
     /**
      * @param int $id
      * @return Cart|null
@@ -86,24 +86,35 @@ class Cart extends Model
     {
         return self::where('id', '=', $id)->first();
     }
-    
-    /** 
+
+    /**
      * @return Coupon|null
      */
     public function coupon(): ?Coupon
     {
-        if($this->coupon_id === null)
-        {
+        if ($this->coupon_id === null) {
             return null;
         }
         return Coupon::fromId($this->coupon_id);
     }
-    
+
     /**
      * @return User
      */
     public function user(): User
     {
         return User::fromId($this->user_id);
+    }
+
+    /**
+     * @return int
+     */
+    public function itemCount(): int
+    {
+        $sum = 0;
+        foreach ($this->items() as $item) {
+            $sum += $item->amount;
+        }
+        return $sum;
     }
 }
