@@ -168,9 +168,10 @@ class CartController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Cart $cart)
+    public function destroy(Cart $cart): RedirectResponse
     {
-        echo 'DESTROY';
-        exit;
+        $cart->delete();
+        $cart->save();
+        return redirect(route('cart.index'));
     }
 }

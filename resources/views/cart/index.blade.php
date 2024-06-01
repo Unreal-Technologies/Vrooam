@@ -91,7 +91,15 @@
                                 <td>&euro; {{ number_format($discount, 2, ',', '.') }}</td>
                             </tr>
                             <tr>
-                                <td></td>
+                                <td>
+                                    <form method='post' action='{{ route('cart.destroy', ['cart' => $items[0]->cart_id]) }}'>
+                                        @csrf
+                                        @method('delete')
+                                        <x-danger-button class="ms-3">
+                                            {{ __('Winkelwagen legen') }}
+                                        </x-danger-button>
+                                    </form>
+                                </td>
                                 <td>Totaal:</td>
                                 <td>&euro; {{ number_format($total, 2, ',', '.') }}</td>
                             </tr>
