@@ -13,10 +13,17 @@
                     @method('put')
                     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <div class="p-6 text-gray-900">
-                            <table>
+                            <table id="cart-item">
                                 <tr>
-                                    <td style='white-space: nowrap;vertical-align: bottom;'>
-                                        Product: {{ $item->product()->description }} @if (session('status') === 'item-updated-'.$item->id)
+                                    <td>Product:&nbsp;</td>
+                                    <td>{{ $item->product()->description }}</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Aantal:&nbsp;</td>
+                                    <td>
+                                        <input type="number" min="0" max="255" name="amount" value="{{ $item->amount }}" />
+                                        @if (session('status') === 'item-updated-'.$item->id)
                                             <span
                                                 x-data="{ show: true }"
                                                 x-show="show"
@@ -24,14 +31,14 @@
                                                 x-init="setTimeout(() => show = false, 2000)"
                                                 class="text-sm text-gray-600"
                                             >{{ __('Opgeslagen.') }}</span>
-                                        @endif<br />
-                                        Aantal: <input type="number" min="0" max="255" name="amount" value="{{ $item->amount }}" /><br />
-                                        Prijs: &euro; {{ number_format($item->product()->price, 2, ',', '.') }}
+                                        @endif
                                     </td>
-                                    <td style='text-align: right; width: 100%;vertical-align: bottom;'>
-                                        <x-primary-button class="mt-4">{{ __('Update') }}</x-primary-button><br /><br />
-                                        &euro; {{ number_format($item->amount * $item->product()->price, 2, ',', '.') }}
-                                    </td>
+                                    <td><x-primary-button class="mt-4">{{ __('Update') }}</x-primary-button></td>
+                                </tr>
+                                <tr>
+                                    <td>Prijs:&nbsp;</td>
+                                    <td>&euro; {{ number_format($item->product()->price, 2, ',', '.') }}</td>
+                                    <td>&euro; {{ number_format($item->amount * $item->product()->price, 2, ',', '.') }}</td>
                                 </tr>
                             </table>
                         </div>
@@ -66,13 +73,19 @@
                                         <span style='float:left;clear: both;'>
                                             <form method='post' action='{{ route('cart.removecoupon', ['cart' => $cartId]) }}'>
                                                 @csrf
-                                                <x-primary-button class="mt-4" style="clear: both;">{{ __('Coupon Verwijderen') }}</x-primary-button>
+                                                <x-primary-button class="mt-4" style="clear: both;">{{ __('Korting Verwijderen') }}</x-primary-button>
                                             </form>
                                         </span>
                                     @else
                                         <x-primary-button x-data=""  x-on:click.prevent="$dispatch('open-modal', 'input-coupon-code')">Korting Toevoegen</x-primary-button>
                                         @error('code')
-                                            <span class="alert alert-danger">{{ $message }}</span>
+                                            <span
+                                                x-data="{ show: true }"
+                                                x-show="show"
+                                                x-transition
+                                                x-init="setTimeout(() => show = false, 2000)"
+                                                class="text-sm text-gray-600"
+                                            >{{ $message }}</span>
                                         @enderror
                                     @endif
                                     <br /><br />

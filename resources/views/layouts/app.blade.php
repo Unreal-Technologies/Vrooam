@@ -18,19 +18,31 @@
                 font-size: 12pt;
             }
             
-            #cart-totals table, #cart-totals td
+            #cart-totals table, #cart-totals td, #cart-item table, #cart-item td
             {
                 width: 100%;
                 white-space: nowrap;
                 text-align: right;
             }
             
-            #cart-totals td
+            #cart-item td
+            {
+                text-align: left;
+                width: 1px;
+            }
+            
+            #cart-item td:last-child
+            {
+                text-align: right;
+                width: 100%;
+            }
+            
+            #cart-totals td, #cart-item td
             {
                 vertical-align: top;
             }
             
-            #cart-totals td:nth-child(1)
+            #cart-totals td:first-child
             {
                 text-align: left;
             }
@@ -40,7 +52,7 @@
                 font-weight: bold;
             }
             
-            #cart-totals td *
+            #cart-totals td *, #cart-item td *
             {
                 margin: 0px;
                 white-space: nowrap;
