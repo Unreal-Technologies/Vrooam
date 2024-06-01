@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+#cart-totals table
+{
+    width: 100%;
+    background-color: red;
+}

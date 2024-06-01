@@ -2,9 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
+use App\Models\Product;
+use App\Models\Coupon;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Logic\CouponTypes;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,11 +15,30 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        Product::factory()->create([
+            'description' => 'Product A',
+            'text' => 'content of product A',
+            'price' => 25.99
+        ]);
+        Product::factory()->create([
+            'description' => 'Product B',
+            'text' => 'content of product B',
+            'price' => 39.99
+        ]);
+        Product::factory()->create([
+            'description' => 'Product C',
+            'text' => 'content of product C',
+            'price' => 99.25
+        ]);
+        Coupon::factory()->create([
+            'code' => 'VROOAM1',
+            'discount' => 25,
+            'type' => CouponTypes::Flat
+        ]);
+        Coupon::factory()->create([
+            'code' => 'VROOAM2',
+            'discount' => 25,
+            'type' => CouponTypes::Percentage
         ]);
     }
 }
