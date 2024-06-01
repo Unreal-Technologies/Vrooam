@@ -18,17 +18,20 @@ class DatabaseSeeder extends Seeder
         Product::factory()->create([
             'description' => 'Product A',
             'text' => 'content of product A',
-            'price' => 25.99
+            'price' => 25.99,
+            'code' => '0031A'
         ]);
         Product::factory()->create([
             'description' => 'Product B',
             'text' => 'content of product B',
-            'price' => 39.99
+            'price' => 39.99,
+            'code' => '0021F'
         ]);
         Product::factory()->create([
             'description' => 'Product C',
             'text' => 'content of product C',
-            'price' => 99.25
+            'price' => 99.25,
+            'code' => '0131G'
         ]);
         Coupon::factory()->create([
             'code' => 'VROOAM1',

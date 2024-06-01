@@ -19,6 +19,16 @@ class ProductsController extends Controller
     }
 
     /**
+     * @return View
+     */
+    public function editlist(): View
+    {
+        return view('products.editlist', [
+            'products' => Product::all()
+        ]);
+    }
+    
+    /**
      * Show the form for creating a new resource.
      */
     public function create()

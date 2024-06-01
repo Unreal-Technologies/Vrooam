@@ -13,7 +13,7 @@
                 @csrf
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
-                        <p>{{ $product->description }}</p>
+                        <p><b>{{ $product->description }}</b> (Art.Nr: {{ $product->code }})</p>
                         <span style='float: right;'>
                             &euro; {{ number_format($product->price, 2, ',', '.') }} 
                             <input value='1' type='number' min="1" max='255' name='amount' />
