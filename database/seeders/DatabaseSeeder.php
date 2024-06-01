@@ -3,8 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\Product;
+use App\Models\Coupon;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Logic\CouponTypes;
 
 class DatabaseSeeder extends Seeder
 {
@@ -27,6 +29,16 @@ class DatabaseSeeder extends Seeder
             'description' => 'Product C',
             'text' => 'content of product C',
             'price' => 99.25
+        ]);
+        Coupon::factory()->create([
+            'code' => 'VROOAM1',
+            'discount' => 25,
+            'type' => CouponTypes::Flat
+        ]);
+        Coupon::factory()->create([
+            'code' => 'VROOAM2',
+            'discount' => 25,
+            'type' => CouponTypes::Percentage
         ]);
     }
 }

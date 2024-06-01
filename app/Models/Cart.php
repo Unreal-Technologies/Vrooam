@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Product;
+use App\Models\Coupon;
 use Illuminate\Database\Eloquent\Collection;
 
 class Cart extends Model
@@ -75,5 +76,34 @@ class Cart extends Model
     public function getItem(int $id): ?CartItems
     {
         return CartItems::fromId($id);
+    }
+    
+    /**
+     * @param int $id
+     * @return Cart|null
+     */
+    public static function fromId(int $id): ?Cart
+    {
+        return self::where('id', '=', $id)->first();
+    }
+    
+    /** 
+     * @return Coupon|null
+     */
+    public function coupon(): ?Coupon
+    {
+        if($this->coupon_id === null)
+        {
+            return null;
+        }
+        return Coupon::fromId($this->coupon_id);
+    }
+    
+    /**
+     * @return User
+     */
+    public function user(): User
+    {
+        return User::fromId($this->user_id);
     }
 }

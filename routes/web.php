@@ -27,6 +27,15 @@ Route::resource('cart', CartController::class)
     ])
     -> middleware(['auth', 'verified']);
 
+Route::post('cart.addcoupon/{cart}', [CartController::class, 'addcoupon'])
+    -> middleware(['auth', 'verified'])
+    -> name('cart.addcoupon');
+
+Route::post('cart.removecoupon/{cart}', [CartController::class, 'removecoupon'])
+    -> middleware(['auth', 'verified'])
+    -> name('cart.removecoupon');
+    
+
 Route::resource('cartitems', CartItemsController::class)
     -> only(['update'])
     -> middleware(['auth', 'verified']);

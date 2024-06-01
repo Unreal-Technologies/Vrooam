@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Logic\CouponTypes;
 
 return new class extends Migration
 {
@@ -11,12 +12,23 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::create('coupons', function(Blueprint $table)
+        {
+            $table->id();
+            $table->string('code');
+            $table->float('discount');
+            $table->enum('type', CouponTypes::values());
+            $table->timestamps();
+        });
+        
         Schema::create('carts', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('coupon_id')->nullable();
             $table->boolean('is_processed')->default(false);
 
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
+            $table->foreign('coupon_id')->references('id')->on('coupons')->cascadeOnDelete();
             $table->timestamps();
         });
 
@@ -36,6 +48,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('coupons');
         Schema::dropIfExists('cart_items');
         Schema::dropIfExists('carts');
     }
