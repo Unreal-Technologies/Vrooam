@@ -46,7 +46,7 @@ class Coupon extends Model
      */
     public function text(): string
     {
-        $text = 'Coupon <b>"' . $this->code . '"</b>';
+        $text = 'Kortings code <b>"' . $this->code . '"</b>';
         $enum = CouponTypes::from($this->type);
         switch ($enum) {
             case CouponTypes::Flat:

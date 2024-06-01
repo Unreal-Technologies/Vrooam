@@ -12,6 +12,12 @@
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
         <style type="text/css">
+            html *
+            {
+                font-family: monospace;
+                font-size: 12pt;
+            }
+            
             #cart-totals table, #cart-totals td
             {
                 width: 100%;
@@ -29,7 +35,7 @@
                 text-align: left;
             }
             
-            #cart-totals td:nth-child(3)
+            #cart-totals tr td:last-child
             {
                 font-weight: bold;
             }
@@ -38,6 +44,11 @@
             {
                 margin: 0px;
                 white-space: nowrap;
+            }
+            
+            #cart-totals hr
+            {
+                border-color: black;
             }
             
             input[type='text']

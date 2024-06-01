@@ -61,7 +61,7 @@
                     <div class="p-6 text-gray-900">
                         <table id="cart-totals">
                             <tr>
-                                <td rowspan="3">
+                                <td rowspan="4">
                                     @if ($coupon !== null)
                                         <span style='float:left;clear: both;'>
                                             <form method='post' action='{{ route('cart.removecoupon', ['cart' => $items[0]->cart_id]) }}'>
@@ -70,15 +70,10 @@
                                             </form>
                                         </span>
                                     @else
-                                        <form method='post' action='{{ route('cart.addcoupon', ['cart' => $items[0]->cart_id]) }}'>
-                                            @csrf
-                                            <label for="code">Coupon code:</label>
-                                            <input id="code" name="code" type="text" class="mt-1 block w-full" />
-                                            <x-primary-button class="mt-4">{{ __('Toevoegen') }}</x-primary-button>
-                                            @error('code')
-                                                <div class="alert alert-danger">{{ $message }}</div>
-                                            @enderror
-                                        </form>
+                                        <x-primary-button x-data=""  x-on:click.prevent="$dispatch('open-modal', 'input-coupon-code')">Korting Toevoegen</x-primary-button>
+                                        @error('code')
+                                            <span class="alert alert-danger">{{ $message }}</span>
+                                        @enderror
                                     @endif
                                     <br /><br />
                                     <span style='float:left;clear: both;'>
@@ -103,6 +98,9 @@
                                 <td>&euro; {{ number_format($discount, 2, ',', '.') }}</td>
                             </tr>
                             <tr>
+                                <td colspan="3"><hr /></td>
+                            </tr>
+                            <tr>
                                 <td></td>
                                 <td>Totaal:&nbsp;</td>
                                 <td>&euro; {{ number_format($total, 2, ',', '.') }}</td>
@@ -122,4 +120,12 @@
             @endif
         </div>
     </div>
+    <x-modal name="input-coupon-code" :show="$coupon === null && session('status') === 'open-modal'" focusable>
+        <form method='post' action='{{ route('cart.addcoupon', ['cart' => $items[0]->cart_id]) }}'>
+            @csrf
+            <label for="code">Korting code:</label>
+            <input id="code" name="code" type="text" class="mt-1 block w-full" />
+            <x-primary-button class="mt-4">{{ __('Toevoegen') }}</x-primary-button>
+        </form>
+    </x-modal>
 </x-app-layout>
