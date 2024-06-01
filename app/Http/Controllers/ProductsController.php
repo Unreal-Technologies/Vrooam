@@ -34,18 +34,21 @@ class ProductsController extends Controller
     public function create(): View
     {
         return view('products.entry', [
+            'title' => 'Toevoegen',
             'route' => 'products.store',
+            'method' => 'post',
             'description' => null,
             'code' => null,
             'price' => 0,
-            'text' => null
+            'text' => null,
+            'param' => []
         ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
             'code' => 'required',
@@ -61,9 +64,20 @@ class ProductsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Products $products)
+    public function show(int $id): View
     {
-        //
+        $product = Product::fromId($id);
+
+        return view('products.entry', [
+            'title' => 'Bewerken',
+            'route' => 'products.update',
+            'method' => 'patch',
+            'description' => $product->description,
+            'code' => $product->code,
+            'price' => $product->price,
+            'text' => $product->text,
+            'param' => [ 'product' => $product->id ]
+        ]);
     }
 
     /**
@@ -71,15 +85,27 @@ class ProductsController extends Controller
      */
     public function edit(Products $products)
     {
+        
+        
         //
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Products $products)
+    public function update(Request $request, int $id)
     {
-        //
+        $validated = $request->validate([
+            'code' => 'required',
+            'description' => 'required',
+            'price' => 'required|numeric|gt:0',
+            'text' => 'required'
+        ]);
+        $product = Product::fromId($id);
+        $product->update($validated);
+        $product->save();
+        
+        return redirect(route('products.editlist'));
     }
 
     /**

@@ -23,7 +23,9 @@
                             <td>Omschrijving:&nbsp;</td>
                             <td>{{ $product->description }}</td>
                             <td rowspan="4">
-                                --edit--
+                                <form method="get" action="{{ route('products.show', ['product' => $product->id]) }}">
+                                    <x-primary-button class="mt-4">{{ __('Bewerken') }}</x-primary-button>
+                                </form>
                                 --remove--
                             </td>
                         </tr>
