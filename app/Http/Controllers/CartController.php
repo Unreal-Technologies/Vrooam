@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use App\Models\User;
 use App\Models\Coupon;
+use Illuminate\Validation\ValidationException;
 
 class CartController extends Controller
 {
@@ -88,7 +89,7 @@ class CartController extends Controller
         $coupon = Coupon::byCode($validated['code']);
         if($coupon === null)
         {
-            return redirect(route('cart.index'))->with('status', 'coupon-not-found')->with('message', $validated['code']);
+            throw ValidationException::withMessages(['code' => 'De coupon met code "'.$validated['code'].'" is niet gevonden.']);
         }
         $cart = Cart::fromId($id);
         if($cart === null)
@@ -102,7 +103,7 @@ class CartController extends Controller
         }
         if($coupon->isUsed($user))
         {
-            return redirect(route('cart.index'))->with('status', 'coupon-used')->with('message', $validated['code']);
+            throw ValidationException::withMessages(['code' => 'De coupon met code "'.$validated['code'].'" is al gebruikt.']);
         }
         $cart->coupon_id = $coupon->id;
         $cart->save();

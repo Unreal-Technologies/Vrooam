@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
+use App\Logic\CouponTypes;
 
 class Coupon extends Model
 {
@@ -38,5 +39,21 @@ class Coupon extends Model
             ['user_id', '=', $user->id],
             ['coupon_id', '=', $this->id]
         ])->exists();
+    }
+    
+    /**
+     * @return string
+     */
+    public function text(): string
+    {
+        $text = 'Coupon <b>"'.$this->code.'"</b>';
+        $enum = CouponTypes::from($this->type);
+        switch($enum)
+        {
+            case CouponTypes::Flat:
+                return $text.' (&euro; '.number_format($this->discount, 2, ',', '.').')';
+            case CouponTypes::Percentage:
+                return $text.' ('.number_format($this->discount, 2, ',', '.').' %)';
+        }
     }
 }

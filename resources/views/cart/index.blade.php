@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Cart') }}
+            {{ __('Winkelwagen') }}
         </h2>
     </x-slot>
 
@@ -59,45 +59,43 @@
             @if (count($items) > 0)
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
-                        <span style='float:right;clear: both;'>Subtotaal: &euro; {{ number_format($sum, 2, ',', '.') }}</span><br />
-                        @if ($coupon !== null)
-                            <span style='float:left;clear: both;'>
-                                <form method='post' action='{{ route('cart.removecoupon', ['cart' => $items[0]->cart_id]) }}'>
-                                    @csrf
-                                    <x-primary-button class="mt-4" style="clear: both;">{{ __('Coupon Verwijderen') }}</x-primary-button>
-                                    @if((int)$coupon->type === 1)
-                                    Coupon <b>"{{ $coupon->code }}"</b> (&euro; {{ number_format($coupon->discount, 2, ',', '.') }})
+                        <table id="cart-totals">
+                            <tr>
+                                <td></td>
+                                <td>Subtotaal: </td>
+                                <td>&euro; {{ number_format($sum, 2, ',', '.') }}</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @if ($coupon !== null)
+                                        <span style='float:left;clear: both;'>
+                                            <form method='post' action='{{ route('cart.removecoupon', ['cart' => $items[0]->cart_id]) }}'>
+                                                @csrf
+                                                <x-primary-button class="mt-4" style="clear: both;">{{ __('Coupon Verwijderen') }}</x-primary-button>
+                                                {!! $coupon->text() !!}
+                                            </form>
+                                        </span>
                                     @else
-                                    Coupon <b>"{{ $coupon->code }}"</b> ({{ number_format($coupon->discount, 2, ',', '.') }} %)
+                                        <form method='post' action='{{ route('cart.addcoupon', ['cart' => $items[0]->cart_id]) }}'>
+                                            @csrf
+                                            Coupon code:
+                                            <input id="code" name="code" type="text" class="mt-1 block w-full" />
+                                            @error('code')
+                                                <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
+                                            <x-primary-button class="mt-4">{{ __('Toevoegen') }}</x-primary-button>
+                                        </form>
                                     @endif
-                                </form>
-                            </span>
-                        @else
-                            <form method='post' action='{{ route('cart.addcoupon', ['cart' => $items[0]->cart_id]) }}'>
-                                @csrf
-                                Coupon code: <input type="text" name="code" /> <x-primary-button class="mt-4">{{ __('Toevoegen') }}</x-primary-button>
-                                @if (session('status') === 'coupon-not-found')
-                                    <p
-                                        x-data="{ show: true }"
-                                        x-show="show"
-                                        x-transition
-                                        x-init="setTimeout(() => show = false, 2000)"
-                                        class="text-sm text-gray-600"
-                                    >{{ __('Coupon met code "'.session('message').'" bestaat niet.') }}</p>
-                                @endif
-                                @if (session('status') === 'coupon-used')
-                                    <p
-                                        x-data="{ show: true }"
-                                        x-show="show"
-                                        x-transition
-                                        x-init="setTimeout(() => show = false, 2000)"
-                                        class="text-sm text-gray-600"
-                                    >{{ __('Coupon met code "'.session('message').'" is al gebruikt.') }}</p>
-                                @endif
-                            </form>
-                        @endif
-                        <span style='float:right;clear: both;'>Korting: &euro; {{ number_format($discount, 2, ',', '.') }}</span><br />
-                        <span style='float:right;clear: both;'>Totaal: &euro; {{ number_format($total, 2, ',', '.') }}</span><br />
+                                </td>
+                                <td>Korting:</td>
+                                <td>&euro; {{ number_format($discount, 2, ',', '.') }}</td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>Totaal:</td>
+                                <td>&euro; {{ number_format($total, 2, ',', '.') }}</td>
+                            </tr>
+                        </table>
                         @if (session('status') === 'item-deleted')
                             <p
                                 x-data="{ show: true }"
