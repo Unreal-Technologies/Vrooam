@@ -20,6 +20,11 @@
                                     <td></td>
                                 </tr>
                                 <tr>
+                                    <td>Art.Nr:&nbsp;</td>
+                                    <td>{{ $item->product()->code }}</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
                                     <td>Aantal:&nbsp;</td>
                                     <td>
                                         <input type="number" min="0" max="255" name="amount" value="{{ $item->amount }}" />
