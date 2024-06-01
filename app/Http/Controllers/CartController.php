@@ -171,7 +171,6 @@ class CartController extends Controller
     public function destroy(Cart $cart): RedirectResponse
     {
         $cart->delete();
-        $cart->save();
         return redirect(route('cart.index'));
     }
 }
