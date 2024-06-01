@@ -41,8 +41,11 @@ Route::resource('cartitems', CartItemsController::class)
     -> middleware(['auth', 'verified']);
 
 Route::resource('products', ProductsController::class)
-    -> only(['index', 'store'])
+    -> only(['index', 'store', 'create', 'show', 'update', 'destroy'])
     -> middleware(['auth', 'verified']);
 
+Route::get('products.editlist', [ProductsController::class, 'editlist'])
+    -> middleware(['auth', 'verified'])
+    -> name('products.editlist');
 
 require __DIR__.'/auth.php';
