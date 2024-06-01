@@ -52,7 +52,8 @@ class CartController extends Controller
             'sum' => $sum,
             'coupon' => $coupon,
             'discount' => $discount,
-            'total' => $sum - $discount
+            'total' => $sum - $discount,
+            'cartId' => $cart->id
         ]);
     }
 

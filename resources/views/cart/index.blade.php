@@ -64,7 +64,7 @@
                                 <td rowspan="4">
                                     @if ($coupon !== null)
                                         <span style='float:left;clear: both;'>
-                                            <form method='post' action='{{ route('cart.removecoupon', ['cart' => $items[0]->cart_id]) }}'>
+                                            <form method='post' action='{{ route('cart.removecoupon', ['cart' => $cartId]) }}'>
                                                 @csrf
                                                 <x-primary-button class="mt-4" style="clear: both;">{{ __('Coupon Verwijderen') }}</x-primary-button>
                                             </form>
@@ -77,7 +77,7 @@
                                     @endif
                                     <br /><br />
                                     <span style='float:left;clear: both;'>
-                                        <form method='post' action='{{ route('cart.destroy', ['cart' => $items[0]->cart_id]) }}'>
+                                        <form method='post' action='{{ route('cart.destroy', ['cart' => $cartId]) }}'>
                                             @csrf
                                             @method('delete')
                                             <x-danger-button class="ms-3">{{ __('Winkelwagen legen') }}</x-danger-button>
@@ -121,7 +121,7 @@
         </div>
     </div>
     <x-modal name="input-coupon-code" :show="$coupon === null && session('status') === 'open-modal'" focusable>
-        <form method='post' action='{{ route('cart.addcoupon', ['cart' => $items[0]->cart_id]) }}'>
+        <form method='post' action='{{ route('cart.addcoupon', ['cart' => $cartId]) }}'>
             @csrf
             <label for="code">Korting code:</label>
             <input id="code" name="code" type="text" class="mt-1 block w-full" />
