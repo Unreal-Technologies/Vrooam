@@ -127,7 +127,7 @@ class CartController extends Controller
         $cart = $user->cart();
         $cart->addOrUpdateProduct($product, $validated['amount']);
 
-        return redirect(route('cart.index'));
+        return redirect(route('products.index'));
     }
 
     /**

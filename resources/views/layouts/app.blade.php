@@ -67,6 +67,11 @@
             {
                 max-width: 250px;
             }
+            
+            a
+            {
+                margin-top: 16px;
+            }
         </style>
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])

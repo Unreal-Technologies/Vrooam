@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Models\Product;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Validation\ValidationException;
 
 class ProductsController extends Controller
 {
@@ -28,7 +29,7 @@ class ProductsController extends Controller
             'products' => Product::all()
         ]);
     }
-    
+
     /**
      * Show the form for creating a new resource.
      */
@@ -39,10 +40,10 @@ class ProductsController extends Controller
             'route' => 'products.store',
             'method' => 'post',
             'param' => [],
-            'description' => null,
-            'code' => null,
-            'price' => 0,
-            'text' => null
+            'description' => old('description'),
+            'code' => old('code'),
+            'price' => old('price'),
+            'text' => old('text')
         ]);
     }
 
@@ -57,7 +58,16 @@ class ProductsController extends Controller
             'price' => 'required|numeric|gt:0',
             'text' => 'required'
         ]);
-        
+        $validated['code'] = strtoupper($validated['code']);
+
+        $product = Product::fromCode($validated['code']);
+        if ($product !== null) {
+            $message = 'Product met code "' . $validated['code'] . '" bestaat al.';
+            throw ValidationException::withMessages([
+                'code' => $message
+            ]);
+        }
+
         Product::factory()->create($validated);
         return redirect(route('products.editlist'));
     }
@@ -74,10 +84,10 @@ class ProductsController extends Controller
             'route' => 'products.update',
             'method' => 'patch',
             'param' => [ 'product' => $product->id ],
-            'description' => $product->description,
-            'code' => $product->code,
-            'price' => $product->price,
-            'text' => $product->text
+            'description' => old('description') ?? $product->description,
+            'code' => old('code') ?? $product->code,
+            'price' => old('price') ?? $product->price,
+            'text' => old('text') ?? $product->text
         ]);
     }
 
@@ -92,10 +102,20 @@ class ProductsController extends Controller
             'price' => 'required|numeric|gt:0',
             'text' => 'required'
         ]);
+        $validated['code'] = strtoupper($validated['code']);
+
         $product = Product::fromId($id);
+        $testProduct = Product::fromCode($validated['code']);
+        if ($testProduct !== null && $testProduct->id !== $product->id) {
+            $message = 'Product met code "' . $validated['code'] . '" bestaat al.';
+            throw ValidationException::withMessages([
+                'code' => $message
+            ]);
+        }
+
         $product->update($validated);
         $product->save();
-        
+
         return redirect(route('products.editlist'));
     }
 
