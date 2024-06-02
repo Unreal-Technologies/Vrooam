@@ -71,6 +71,34 @@ class ProductTest extends TestCase
     /**
      * @return void
      */
+    public function test_product_from_id(): void
+    {
+        $p1 = Product::fromId(1);
+        $p2 = Product::fromId(2);
+        
+        $this->assertFalse($p1 === null);
+        $this->assertTrue($p2 === null);
+        
+    }
+    
+    /**
+     * @return void
+     */
+    public function test_product_from_code(): void
+    {
+        $p1 = Product::fromCode('a123');
+        $p2 = Product::fromCode('A123');
+        $p3 = Product::fromCode('b123');
+        
+        $this->assertFalse($p1 === null);
+        $this->assertFalse($p2 === null);
+        $this->assertTrue($p3 === null);
+        
+    }
+    
+    /**
+     * @return void
+     */
     public function test_update_product_a123(): void
     {
         $product = Product::where('code', '=', 'A123')->first();
