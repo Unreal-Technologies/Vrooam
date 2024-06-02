@@ -19,4 +19,17 @@ class Product extends Model
     {
         return self::where('id', '=', $id)->first();
     }
+    
+    /**
+     * @param string $description
+     * @param string $code
+     * @return Product|null
+     */
+    public static function fromDescriptionAndCode(string $description, string $code): ?Product
+    {
+        return self::where([
+            ['description', '=', $description],
+            ['code', '=', $code]
+        ])->first();
+    }
 }
