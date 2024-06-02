@@ -18,7 +18,7 @@
             @foreach ($items as $coupon)
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <table>
+                    <table id='coupon-list'>
                         <tr>
                             <td>Code:&nbsp;</td>
                             <td>{{ $coupon->code }}</td>
@@ -38,7 +38,7 @@
                         </tr>
                         <tr>
                             <td>Discount:&nbsp;</td>
-                            <td>{{ $coupon->discount }}</td>
+                            <td>{{ number_format($coupon->discount, 2, ',', '.') }}</td>
                         </tr>
                         <tr>
                             <td>Type:&nbsp;</td>
