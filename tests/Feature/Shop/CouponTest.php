@@ -6,10 +6,11 @@ use Tests\TestCase;
 use Tests\Logic\Auth;
 use App\Models\Coupon;
 use App\Logic\CouponTypes;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CouponTest extends TestCase
 {
-    use Auth;
+    use Auth, RefreshDatabase;
 
     /**
      * @return void
@@ -55,7 +56,7 @@ class CouponTest extends TestCase
         $coupon = Coupon::where('code', '=', 'vrooam1')->first();
         $this->assertFalse($coupon === null);
         if ($coupon !== null) {
-            $this ->assertEquals('VROOAM1', $coupon->code);
+            $this->assertEquals('VROOAM1', $coupon->code);
         }
     }
 
@@ -64,6 +65,8 @@ class CouponTest extends TestCase
      */
     public function testCouponControllerUpdateCouponVrooam1(): void
     {
+        $this->testCouponControllerAddCouponVrooam1();
+        
         $coupon = Coupon::where('code', '=', 'vrooam1')->first();
         $this->assertFalse($coupon === null);
 
@@ -88,6 +91,8 @@ class CouponTest extends TestCase
      */
     public function testCouponModelCouponFromId(): void
     {
+        $this -> testCouponControllerUpdateCouponVrooam1();
+        
         $p1 = Coupon::fromId($this->baseCouponId());
         $p2 = Coupon::fromId(9999);
 
@@ -98,8 +103,10 @@ class CouponTest extends TestCase
     /**
      * @return void
      */
-    public function testCouponMdelFromCode(): void
+    public function testCouponModelFromCode(): void
     {
+        $this->testCouponControllerAddCouponVrooam1();
+        
         $p1 = Coupon::fromCode('vrooam1');
         $p2 = Coupon::fromCode('VROOAM1');
         $p3 = Coupon::fromCode('vROoam1');
@@ -116,6 +123,8 @@ class CouponTest extends TestCase
      */
     public function testCouponModelCouponIsUsed(): void
     {
+        $this->testCouponControllerAddCouponVrooam1();
+        
         $coupon = Coupon::fromId($this->baseCouponId());
         $this->assertFalse($coupon === null);
 
@@ -142,6 +151,8 @@ class CouponTest extends TestCase
      */
     public function testCouponModelCouponText(): void
     {
+        $this->testCouponControllerUpdateCouponVrooam1();
+        
         $coupon = Coupon::fromId($this->baseCouponId());
         $this->assertFalse($coupon === null);
 
@@ -157,6 +168,8 @@ class CouponTest extends TestCase
      */
     public function testCouponModelCouponTypeDescription(): void
     {
+        $this->testCouponControllerUpdateCouponVrooam1();
+        
         $coupon = Coupon::fromId($this->baseCouponId());
         $this->assertFalse($coupon === null);
 
@@ -172,6 +185,8 @@ class CouponTest extends TestCase
      */
     public function testCouponControllerDeleteCouponVrooam1(): void
     {
+        $this->testCouponControllerAddCouponVrooam1();
+        
         $coupon = Coupon::where('code', '=', 'vrooam1')->first();
         $this->assertFalse($coupon === null);
 

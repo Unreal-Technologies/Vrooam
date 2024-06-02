@@ -5,10 +5,11 @@ namespace Tests\Feature\Shop;
 use Tests\TestCase;
 use Tests\Logic\Auth;
 use App\Models\Product;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ProductTest extends TestCase
 {
-    use Auth;
+    use Auth, RefreshDatabase;
 
     /**
      * @return void
@@ -47,9 +48,9 @@ class ProductTest extends TestCase
     }
 
     /**
-     * @return void
+     * @return Product|null
      */
-    public function testProductsControllerAddProductA123(): void
+    public function testProductsControllerAddProductA123(): ?Product
     {
         $response = $this->auth()->post('products', [
             'description' => 'test1',
@@ -66,6 +67,7 @@ class ProductTest extends TestCase
         if ($product !== null) {
             $this ->assertEquals('A123', $product->code);
         }
+        return $product;
     }
 
     /**
@@ -73,6 +75,8 @@ class ProductTest extends TestCase
      */
     public function testProductsControllerUpdateProductA123(): void
     {
+        $this->testProductsControllerAddProductA123();
+        
         $product = Product::where('code', '=', 'A123')->first();
         $this->assertFalse($product === null);
 
@@ -97,7 +101,9 @@ class ProductTest extends TestCase
      */
     public function testProductModelProductFromId(): void
     {
-        $p1 = Product::fromId(1);
+        $id = $this->testProductsControllerAddProductA123()->id;
+        
+        $p1 = Product::fromId($id);
         $p2 = Product::fromId(2);
 
         $this->assertFalse($p1 === null);
@@ -109,6 +115,8 @@ class ProductTest extends TestCase
      */
     public function testProductModelFromCode(): void
     {
+        $this->testProductsControllerAddProductA123();
+        
         $p1 = Product::fromCode('a123');
         $p2 = Product::fromCode('A123');
         $p3 = Product::fromCode('b123');
@@ -123,6 +131,8 @@ class ProductTest extends TestCase
      */
     public function testProductsControllerDeleteProductA123(): void
     {
+        $this->testProductsControllerAddProductA123();
+        
         $product = Product::where('code', '=', 'A123')->first();
         $this->assertFalse($product === null);
 

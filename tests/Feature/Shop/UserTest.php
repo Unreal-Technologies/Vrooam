@@ -5,10 +5,11 @@ namespace Tests\Feature\Shop;
 use Tests\TestCase;
 use Tests\Logic\Auth;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UserTest extends TestCase
 {
-    use Auth;
+    use Auth, RefreshDatabase;
 
     /**
      * @return void
