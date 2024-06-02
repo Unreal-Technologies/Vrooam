@@ -60,12 +60,11 @@ class ProductsController extends Controller
         ]);
         $validated['code'] = strtoupper($validated['code']);
         
-        $product = Product::fromDescriptionAndCode($validated['description'], $validated['code']);
+        $product = Product::fromCode($validated['code']);
         if($product !== null)
         {
-            $message = 'Product met omschrijving "'.$validated['description'].'" en code "'.$validated['code'].'" bestaat al.';
+            $message = 'Product met code "'.$validated['code'].'" bestaat al.';
             throw ValidationException::withMessages([
-                'description' => $message,
                 'code' => $message
             ]);
         }
@@ -107,12 +106,11 @@ class ProductsController extends Controller
         $validated['code'] = strtoupper($validated['code']);
         
         $product = Product::fromId($id);
-        $testProduct = Product::fromDescriptionAndCode($validated['description'], $validated['code']);
+        $testProduct = Product::fromCode($validated['code']);
         if($testProduct !== null && $testProduct->id !== $product->id)
         {
-            $message = 'Product met omschrijving "'.$validated['description'].'" en code "'.$validated['code'].'" bestaat al.';
+            $message = 'Product met code "'.$validated['code'].'" bestaat al.';
             throw ValidationException::withMessages([
-                'description' => $message,
                 'code' => $message
             ]);
         }

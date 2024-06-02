@@ -21,15 +21,11 @@ class Product extends Model
     }
     
     /**
-     * @param string $description
      * @param string $code
      * @return Product|null
      */
-    public static function fromDescriptionAndCode(string $description, string $code): ?Product
+    public static function fromCode(string $code): ?Product
     {
-        return self::where([
-            ['description', '=', $description],
-            ['code', '=', $code]
-        ])->first();
+        return self::where('code', '=', $code)->first();
     }
 }
