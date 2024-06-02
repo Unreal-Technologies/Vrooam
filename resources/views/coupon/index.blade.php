@@ -23,8 +23,17 @@
                             <td>Code:&nbsp;</td>
                             <td>{{ $coupon->code }}</td>
                             <td rowspan="3">
-                                --edit--
-                                --delete--
+                                <form method="get" action="{{ route('coupons.show', ['coupon' => $coupon->id]) }}">
+                                    <x-primary-button class="mt-4">{{ __('Bewerken') }}</x-primary-button>
+                                </form>
+                                <br />
+                                <form method="post" action="{{ route('coupons.destroy', ['coupon' => $coupon->id]) }}">
+                                    @csrf
+                                    @method('delete')
+                                    <x-danger-button>
+                                        {{ __('Verwijderen') }}
+                                    </x-danger-button>
+                                </form>
                             </td>
                         </tr>
                         <tr>

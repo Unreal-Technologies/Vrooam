@@ -86,6 +86,15 @@ class Cart extends Model
     {
         return self::where('id', '=', $id)->first();
     }
+    
+    /**
+     * @param Coupon $coupon
+     * @return Collection
+     */
+    public static function fromCoupon(Coupon $coupon): Collection
+    {
+        return self::where('coupon_id', '=', $coupon->id)->get();
+    }
 
     /**
      * @return Coupon|null

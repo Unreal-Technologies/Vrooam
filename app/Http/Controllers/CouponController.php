@@ -69,4 +69,66 @@ class CouponController extends Controller
         Coupon::factory()->create($validated);
         return redirect(route('coupons.index'));
     }
+    
+    /**
+     * Display the specified resource.
+     */
+    public function show(int $id): View
+    {
+        $coupon = Coupon::fromId($id);
+
+        return view('coupon.entry', [
+            'title' => 'Bewerken',
+            'route' => 'coupons.update',
+            'method' => 'patch',
+            'param' => [ 'coupon' => $coupon->id ],
+            'code' => old('code') ?? $coupon->code,
+            'discount' => old('discount') ?? $coupon->discount,
+            'type' => old('type') ?? $coupon->type
+        ]);
+    }
+    
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, int $id)
+    {
+        $validated = $request->validate([
+            'code' => 'required',
+            'discount' => 'required|numeric|gt:0',
+            'type' => 'required'
+        ]);
+        $validated['code'] = strtoupper($validated['code']);
+        
+        $coupon = Coupon::fromId($id);
+        $match = Coupon::byCode($validated['code']);
+        if ($match !== null && $match->id !== $coupon->id) {
+            throw ValidationException::withMessages([
+                'code' => 'De korting met code "' . $validated['code'] . '" bestaat al.'
+            ]);
+        }
+
+        $coupon->update($validated);
+        $coupon->save();
+
+        return redirect(route('coupons.index'));
+    }
+    
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(int $id)
+    {
+        $coupon = Coupon::fromId($id);
+        
+        foreach(Cart::fromCoupon($coupon) as $cart)
+        {
+            $cart->coupon_id = null;
+            $cart->save();
+        }
+
+        $coupon->delete();
+
+        return redirect(route('coupons.index'));
+    }
 }
