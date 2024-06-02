@@ -18,20 +18,20 @@
                 font-size: 12pt;
             }
             
-            #cart-totals table, #cart-totals td, #cart-item table, #cart-item td, #product-editlist table, #product-editlist td
+            #cart-totals table, #cart-totals td, #cart-item table, #cart-item td, #product-editlist table, #product-editlist td, #coupon-list table, #coupon-list td
             {
                 width: 100%;
                 white-space: nowrap;
                 text-align: right;
             }
             
-            #cart-item td, #product-editlist td
+            #cart-item td, #product-editlist td, #coupon-list td
             {
                 text-align: left;
                 width: 1px;
             }
             
-            #cart-item td:last-child, #product-editlist td[rowspan]:not([rowspan='1'])
+            #cart-item td:last-child, #product-editlist td[rowspan]:not([rowspan='1']), #coupon-list td[rowspan]:not([rowspan='1'])
             {
                 text-align: right;
                 width: 100%;

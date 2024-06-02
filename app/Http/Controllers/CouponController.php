@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
-use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
-use App\Models\User;
 use App\Models\Coupon;
 use Illuminate\Validation\ValidationException;
 use App\Logic\CouponTypes;
@@ -52,7 +50,7 @@ class CouponController extends Controller
         ]);
 
         $validated['code'] = strtoupper($validated['code']);
-        $match = Coupon::byCode($validated['code']);
+        $match = Coupon::fromCode($validated['code']);
         if ($match !== null) {
             throw ValidationException::withMessages([
                 'code' => 'De korting met code "' . $validated['code'] . '" bestaat al.'
@@ -62,14 +60,18 @@ class CouponController extends Controller
         $enum = CouponTypes::from($validated['type']);
         if ($enum === CouponTypes::Percentage && (float)$validated['discount'] > 100) {
             throw ValidationException::withMessages([
-                'discount' => 'Korting "' . $validated['discount'] . '" moet kleiner zijn dan 100 als type "' . $enum->name . '" is.'
+                'discount' => 'Korting "' .
+                    $validated['discount'] .
+                    '" moet kleiner zijn dan 100 als type "' .
+                    $enum->name .
+                    '" is.'
             ]);
         }
 
         Coupon::factory()->create($validated);
         return redirect(route('coupons.index'));
     }
-    
+
     /**
      * Display the specified resource.
      */
@@ -87,7 +89,7 @@ class CouponController extends Controller
             'type' => old('type') ?? $coupon->type
         ]);
     }
-    
+
     /**
      * Update the specified resource in storage.
      */
@@ -99,9 +101,9 @@ class CouponController extends Controller
             'type' => 'required'
         ]);
         $validated['code'] = strtoupper($validated['code']);
-        
+
         $coupon = Coupon::fromId($id);
-        $match = Coupon::byCode($validated['code']);
+        $match = Coupon::fromCode($validated['code']);
         if ($match !== null && $match->id !== $coupon->id) {
             throw ValidationException::withMessages([
                 'code' => 'De korting met code "' . $validated['code'] . '" bestaat al.'
@@ -113,16 +115,15 @@ class CouponController extends Controller
 
         return redirect(route('coupons.index'));
     }
-    
+
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(int $id)
     {
         $coupon = Coupon::fromId($id);
-        
-        foreach(Cart::fromCoupon($coupon) as $cart)
-        {
+
+        foreach (Cart::fromCoupon($coupon) as $cart) {
             $cart->coupon_id = null;
             $cart->save();
         }

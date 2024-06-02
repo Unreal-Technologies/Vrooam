@@ -42,7 +42,7 @@ Route::post('cart.addcoupon/{cart}', [CartController::class, 'addcoupon'])
 Route::post('cart.removecoupon/{cart}', [CartController::class, 'removecoupon'])
     -> middleware(['auth', 'verified'])
     -> name('cart.removecoupon');
-    
+
 
 Route::resource('cartitems', CartItemsController::class)
     -> only(['update'])
@@ -56,4 +56,4 @@ Route::get('products.editlist', [ProductsController::class, 'editlist'])
     -> middleware(['auth', 'verified'])
     -> name('products.editlist');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
