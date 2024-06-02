@@ -88,8 +88,8 @@ class CouponTest extends TestCase
      */
     public function testCouponModelCouponFromId(): void
     {
-        $p1 = Coupon::fromId(1);
-        $p2 = Coupon::fromId(2);
+        $p1 = Coupon::fromId($this->baseCouponId());
+        $p2 = Coupon::fromId(9999);
 
         $this->assertFalse($p1 === null);
         $this->assertTrue($p2 === null);
@@ -116,7 +116,7 @@ class CouponTest extends TestCase
      */
     public function testCouponModelCouponIsUsed(): void
     {
-        $coupon = Coupon::fromId(1);
+        $coupon = Coupon::fromId($this->baseCouponId());
         $this->assertFalse($coupon === null);
 
         if ($coupon !== null) {
@@ -142,7 +142,7 @@ class CouponTest extends TestCase
      */
     public function testCouponModelCouponText(): void
     {
-        $coupon = Coupon::fromId(1);
+        $coupon = Coupon::fromId($this->baseCouponId());
         $this->assertFalse($coupon === null);
 
         if ($coupon !== null) {
@@ -157,7 +157,7 @@ class CouponTest extends TestCase
      */
     public function testCouponModelCouponTypeDescription(): void
     {
-        $coupon = Coupon::fromId(1);
+        $coupon = Coupon::fromId($this->baseCouponId());
         $this->assertFalse($coupon === null);
 
         if ($coupon !== null) {
@@ -184,5 +184,10 @@ class CouponTest extends TestCase
             $new = Coupon::fromId($coupon->id);
             $this->assertTrue($new === null);
         }
+    }
+    
+    private function baseCouponId(): int
+    {
+        return Coupon::fromCode('vrooam1')->id;
     }
 }
