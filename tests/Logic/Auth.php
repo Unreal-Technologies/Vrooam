@@ -17,8 +17,7 @@ trait Auth
     protected function auth(): mixed
     {
         $this->user = User::where('id', '!=', 0)->first();
-        if($this->user === null)
-        {
+        if ($this->user === null) {
             $this->user = User::factory()->unverified()->create();
         }
         return $this->actingAs($this->user);

@@ -9,7 +9,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ProductTest extends TestCase
 {
-    use Auth, RefreshDatabase;
+    use Auth;
+    use RefreshDatabase;
 
     /**
      * @return void
@@ -76,7 +77,7 @@ class ProductTest extends TestCase
     public function testProductsControllerUpdateProductA123(): void
     {
         $this->testProductsControllerAddProductA123();
-        
+
         $product = Product::where('code', '=', 'A123')->first();
         $this->assertFalse($product === null);
 
@@ -102,7 +103,7 @@ class ProductTest extends TestCase
     public function testProductModelProductFromId(): void
     {
         $id = $this->testProductsControllerAddProductA123()->id;
-        
+
         $p1 = Product::fromId($id);
         $p2 = Product::fromId(2);
 
@@ -116,7 +117,7 @@ class ProductTest extends TestCase
     public function testProductModelFromCode(): void
     {
         $this->testProductsControllerAddProductA123();
-        
+
         $p1 = Product::fromCode('a123');
         $p2 = Product::fromCode('A123');
         $p3 = Product::fromCode('b123');
@@ -132,7 +133,7 @@ class ProductTest extends TestCase
     public function testProductsControllerDeleteProductA123(): void
     {
         $this->testProductsControllerAddProductA123();
-        
+
         $product = Product::where('code', '=', 'A123')->first();
         $this->assertFalse($product === null);
 

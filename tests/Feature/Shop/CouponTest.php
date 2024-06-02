@@ -10,7 +10,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CouponTest extends TestCase
 {
-    use Auth, RefreshDatabase;
+    use Auth;
+    use RefreshDatabase;
 
     /**
      * @return void
@@ -66,7 +67,7 @@ class CouponTest extends TestCase
     public function testCouponControllerUpdateCouponVrooam1(): void
     {
         $this->testCouponControllerAddCouponVrooam1();
-        
+
         $coupon = Coupon::where('code', '=', 'vrooam1')->first();
         $this->assertFalse($coupon === null);
 
@@ -92,7 +93,7 @@ class CouponTest extends TestCase
     public function testCouponModelCouponFromId(): void
     {
         $this -> testCouponControllerUpdateCouponVrooam1();
-        
+
         $p1 = Coupon::fromId($this->baseCouponId());
         $p2 = Coupon::fromId(9999);
 
@@ -106,7 +107,7 @@ class CouponTest extends TestCase
     public function testCouponModelFromCode(): void
     {
         $this->testCouponControllerAddCouponVrooam1();
-        
+
         $p1 = Coupon::fromCode('vrooam1');
         $p2 = Coupon::fromCode('VROOAM1');
         $p3 = Coupon::fromCode('vROoam1');
@@ -124,7 +125,7 @@ class CouponTest extends TestCase
     public function testCouponModelCouponIsUsed(): void
     {
         $this->testCouponControllerAddCouponVrooam1();
-        
+
         $coupon = Coupon::fromId($this->baseCouponId());
         $this->assertFalse($coupon === null);
 
@@ -152,7 +153,7 @@ class CouponTest extends TestCase
     public function testCouponModelCouponText(): void
     {
         $this->testCouponControllerUpdateCouponVrooam1();
-        
+
         $coupon = Coupon::fromId($this->baseCouponId());
         $this->assertFalse($coupon === null);
 
@@ -169,7 +170,7 @@ class CouponTest extends TestCase
     public function testCouponModelCouponTypeDescription(): void
     {
         $this->testCouponControllerUpdateCouponVrooam1();
-        
+
         $coupon = Coupon::fromId($this->baseCouponId());
         $this->assertFalse($coupon === null);
 
@@ -186,7 +187,7 @@ class CouponTest extends TestCase
     public function testCouponControllerDeleteCouponVrooam1(): void
     {
         $this->testCouponControllerAddCouponVrooam1();
-        
+
         $coupon = Coupon::where('code', '=', 'vrooam1')->first();
         $this->assertFalse($coupon === null);
 
@@ -200,7 +201,7 @@ class CouponTest extends TestCase
             $this->assertTrue($new === null);
         }
     }
-    
+
     private function baseCouponId(): int
     {
         return Coupon::fromCode('vrooam1')->id;
