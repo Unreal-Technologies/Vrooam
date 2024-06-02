@@ -29,7 +29,7 @@ Route::resource('cart', CartController::class)
     -> middleware(['auth', 'verified']);
 
 Route::resource('coupons', CouponController::class)
-    -> only(['index'])
+    -> only(['index', 'create', 'store'])
     -> parameters([
         'id' => 'id'
     ])
