@@ -19,7 +19,7 @@ class Product extends Model
     {
         return self::where('id', '=', $id)->first();
     }
-    
+
     /**
      * @param string $code
      * @return Product|null

@@ -23,7 +23,7 @@ class CouponController extends Controller
             'items' => Coupon::all(),
         ]);
     }
-    
+
     /**
      * Show the form for creating a new resource.
      */
@@ -39,7 +39,7 @@ class CouponController extends Controller
             'type' => old('type')
         ]);
     }
-    
+
     /**
      * Store a newly created resource in storage.
      */
@@ -50,21 +50,19 @@ class CouponController extends Controller
             'discount' => 'required|numeric|gt:0',
             'type' => 'required'
         ]);
-        
+
         $validated['code'] = strtoupper($validated['code']);
         $match = Coupon::byCode($validated['code']);
-        if($match !== null)
-        {
+        if ($match !== null) {
             throw ValidationException::withMessages([
                 'code' => 'De korting met code "' . $validated['code'] . '" bestaat al.'
             ]);
         }
-        
+
         $enum = CouponTypes::from($validated['type']);
-        if($enum === CouponTypes::Percentage && (float)$validated['discount'] > 100) 
-        {
+        if ($enum === CouponTypes::Percentage && (float)$validated['discount'] > 100) {
             throw ValidationException::withMessages([
-                'discount' => 'Korting "'.$validated['discount'].'" moet kleiner zijn dan 100 als type "'.$enum->name.'" is.'
+                'discount' => 'Korting "' . $validated['discount'] . '" moet kleiner zijn dan 100 als type "' . $enum->name . '" is.'
             ]);
         }
 

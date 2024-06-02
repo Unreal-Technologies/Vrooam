@@ -59,11 +59,10 @@ class ProductsController extends Controller
             'text' => 'required'
         ]);
         $validated['code'] = strtoupper($validated['code']);
-        
+
         $product = Product::fromCode($validated['code']);
-        if($product !== null)
-        {
-            $message = 'Product met code "'.$validated['code'].'" bestaat al.';
+        if ($product !== null) {
+            $message = 'Product met code "' . $validated['code'] . '" bestaat al.';
             throw ValidationException::withMessages([
                 'code' => $message
             ]);
@@ -104,17 +103,16 @@ class ProductsController extends Controller
             'text' => 'required'
         ]);
         $validated['code'] = strtoupper($validated['code']);
-        
+
         $product = Product::fromId($id);
         $testProduct = Product::fromCode($validated['code']);
-        if($testProduct !== null && $testProduct->id !== $product->id)
-        {
-            $message = 'Product met code "'.$validated['code'].'" bestaat al.';
+        if ($testProduct !== null && $testProduct->id !== $product->id) {
+            $message = 'Product met code "' . $validated['code'] . '" bestaat al.';
             throw ValidationException::withMessages([
                 'code' => $message
             ]);
         }
-        
+
         $product->update($validated);
         $product->save();
 
