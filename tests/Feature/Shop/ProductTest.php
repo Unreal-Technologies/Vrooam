@@ -13,7 +13,7 @@ class ProductTest extends TestCase
     /**
      * @return void
      */
-    public function test_products_controller_screen_authentication_required(): void
+    public function testProductsControllerScreenAuthenticationRequired(): void
     {
         $response = $this->get('/products');
         $response->assertStatus(302);
@@ -22,7 +22,7 @@ class ProductTest extends TestCase
     /**
      * @return void
      */
-    public function test_products_controller_screen_can_be_rendered(): void
+    public function testProductsControllerScreenCanBeRendered(): void
     {
         $response = $this->auth()->get('/products');
         $response->assertStatus(200);
@@ -31,7 +31,7 @@ class ProductTest extends TestCase
     /**
      * @return void
      */
-    public function test_products_controller_screen_create_can_be_rendered(): void
+    public function testProductsControllerScreenCreateCanBeRendered(): void
     {
         $response = $this->auth()->get('/products/create');
         $response->assertStatus(200);
@@ -40,7 +40,7 @@ class ProductTest extends TestCase
     /**
      * @return void
      */
-    public function test_products_controller_screen_editlist_can_be_rendered(): void
+    public function testProductsControllerScreenEditlistCanBeRendered(): void
     {
         $response = $this->auth()->get('/products.editlist');
         $response->assertStatus(200);
@@ -49,7 +49,7 @@ class ProductTest extends TestCase
     /**
      * @return void
      */
-    public function test_products_controller_add_product_a123(): void
+    public function testProductsControllerAddProductA123(): void
     {
         $response = $this->auth()->post('products', [
             'description' => 'test1',
@@ -71,7 +71,7 @@ class ProductTest extends TestCase
     /**
      * @return void
      */
-    public function test_products_controller_update_product_a123(): void
+    public function testProductsControllerUpdateProductA123(): void
     {
         $product = Product::where('code', '=', 'A123')->first();
         $this->assertFalse($product === null);
@@ -95,7 +95,7 @@ class ProductTest extends TestCase
     /**
      * @return void
      */
-    public function test_product_model_product_from_id(): void
+    public function testProductModelProductFromId(): void
     {
         $p1 = Product::fromId(1);
         $p2 = Product::fromId(2);
@@ -107,7 +107,7 @@ class ProductTest extends TestCase
     /**
      * @return void
      */
-    public function test_product_model_from_code(): void
+    public function testProductModelFromCode(): void
     {
         $p1 = Product::fromCode('a123');
         $p2 = Product::fromCode('A123');
@@ -121,7 +121,7 @@ class ProductTest extends TestCase
     /**
      * @return void
      */
-    public function test_products_controller_delete_product_a123(): void
+    public function testProductsControllerDeleteProductA123(): void
     {
         $product = Product::where('code', '=', 'A123')->first();
         $this->assertFalse($product === null);

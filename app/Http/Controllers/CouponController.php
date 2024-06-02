@@ -60,7 +60,11 @@ class CouponController extends Controller
         $enum = CouponTypes::from($validated['type']);
         if ($enum === CouponTypes::Percentage && (float)$validated['discount'] > 100) {
             throw ValidationException::withMessages([
-                'discount' => 'Korting "' . $validated['discount'] . '" moet kleiner zijn dan 100 als type "' . $enum->name . '" is.'
+                'discount' => 'Korting "' .
+                    $validated['discount'] .
+                    '" moet kleiner zijn dan 100 als type "' .
+                    $enum->name .
+                    '" is.'
             ]);
         }
 

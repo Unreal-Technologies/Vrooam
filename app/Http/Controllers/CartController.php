@@ -88,7 +88,9 @@ class CartController extends Controller
 
         $coupon = Coupon::fromCode($validated['code']);
         if ($coupon === null) {
-            throw ValidationException::withMessages(['code' => 'De coupon met code "' . $validated['code'] . '" is niet gevonden.']);
+            throw ValidationException::withMessages([
+                'code' => 'De coupon met code "' . $validated['code'] . '" is niet gevonden.'
+            ]);
         }
         $cart = Cart::fromId($id);
         if ($cart === null) {
@@ -99,7 +101,9 @@ class CartController extends Controller
             throw new \Exception('Cart mismatch', 300);
         }
         if ($coupon->isUsed($user)) {
-            throw ValidationException::withMessages(['code' => 'De coupon met code "' . $validated['code'] . '" is al gebruikt.']);
+            throw ValidationException::withMessages([
+                'code' => 'De coupon met code "' . $validated['code'] . '" is al gebruikt.'
+            ]);
         }
         $cart->coupon_id = $coupon->id;
         $cart->save();

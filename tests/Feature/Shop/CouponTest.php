@@ -14,7 +14,7 @@ class CouponTest extends TestCase
     /**
      * @return void
      */
-    public function test_coupon_controller_screen_authentication_required(): void
+    public function testCouponControllerScreenAuthenticationRequired(): void
     {
         $response = $this->get('/coupons');
         $response->assertStatus(302);
@@ -23,7 +23,7 @@ class CouponTest extends TestCase
     /**
      * @return void
      */
-    public function test_coupon_controller_screen_can_be_rendered(): void
+    public function testCouponControllerScreenCanBeRendered(): void
     {
         $response = $this->auth()->get('/coupons');
         $response->assertStatus(200);
@@ -32,7 +32,7 @@ class CouponTest extends TestCase
     /**
      * @return void
      */
-    public function test_coupon_controller_screen_create_can_be_rendered(): void
+    public function testCouponControllerScreenCreateCanBeRendered(): void
     {
         $response = $this->auth()->get('/coupons/create');
         $response->assertStatus(200);
@@ -41,7 +41,7 @@ class CouponTest extends TestCase
     /**
      * @return void
      */
-    public function test_coupon_controller_add_coupon_vrooam1(): void
+    public function testCouponControllerAddCouponVrooam1(): void
     {
         $response = $this->auth()->post('/coupons', [
             'type' => CouponTypes::Percentage->value,
@@ -62,7 +62,7 @@ class CouponTest extends TestCase
     /**
      * @return void
      */
-    public function test_coupon_controller_update_coupon_vrooam1(): void
+    public function testCouponControllerUpdateCouponVrooam1(): void
     {
         $coupon = Coupon::where('code', '=', 'vrooam1')->first();
         $this->assertFalse($coupon === null);
@@ -86,7 +86,7 @@ class CouponTest extends TestCase
     /**
      * @return void
      */
-    public function test_coupon_model_coupon_from_id(): void
+    public function testCouponModelCouponFromId(): void
     {
         $p1 = Coupon::fromId(1);
         $p2 = Coupon::fromId(2);
@@ -98,7 +98,7 @@ class CouponTest extends TestCase
     /**
      * @return void
      */
-    public function test_coupon_model_from_code(): void
+    public function testCouponMdelFromCode(): void
     {
         $p1 = Coupon::fromCode('vrooam1');
         $p2 = Coupon::fromCode('VROOAM1');
@@ -114,7 +114,7 @@ class CouponTest extends TestCase
     /**
      * @return void
      */
-    public function test_coupon_model_coupon_is_used(): void
+    public function testCouponModelCouponIsUsed(): void
     {
         $coupon = Coupon::fromId(1);
         $this->assertFalse($coupon === null);
@@ -140,7 +140,7 @@ class CouponTest extends TestCase
     /**
      * @return void
      */
-    public function test_coupon_model_coupon_text(): void
+    public function testCouponModelCouponText(): void
     {
         $coupon = Coupon::fromId(1);
         $this->assertFalse($coupon === null);
@@ -155,7 +155,7 @@ class CouponTest extends TestCase
     /**
      * @return void
      */
-    public function test_coupon_model_coupon_type_description(): void
+    public function testCouponModelCouponTypeDescription(): void
     {
         $coupon = Coupon::fromId(1);
         $this->assertFalse($coupon === null);
@@ -170,7 +170,7 @@ class CouponTest extends TestCase
     /**
      * @return void
      */
-    public function test_coupon_controller_delete_coupon_vrooam1(): void
+    public function testCouponControllerDeleteCouponVrooam1(): void
     {
         $coupon = Coupon::where('code', '=', 'vrooam1')->first();
         $this->assertFalse($coupon === null);
