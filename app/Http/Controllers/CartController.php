@@ -86,7 +86,7 @@ class CartController extends Controller
             'code' => 'required'
         ]);
 
-        $coupon = Coupon::byCode($validated['code']);
+        $coupon = Coupon::fromCode($validated['code']);
         if ($coupon === null) {
             throw ValidationException::withMessages(['code' => 'De coupon met code "' . $validated['code'] . '" is niet gevonden.']);
         }

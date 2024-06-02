@@ -50,7 +50,7 @@ class CouponController extends Controller
         ]);
 
         $validated['code'] = strtoupper($validated['code']);
-        $match = Coupon::byCode($validated['code']);
+        $match = Coupon::fromCode($validated['code']);
         if ($match !== null) {
             throw ValidationException::withMessages([
                 'code' => 'De korting met code "' . $validated['code'] . '" bestaat al.'
@@ -99,7 +99,7 @@ class CouponController extends Controller
         $validated['code'] = strtoupper($validated['code']);
         
         $coupon = Coupon::fromId($id);
-        $match = Coupon::byCode($validated['code']);
+        $match = Coupon::fromCode($validated['code']);
         if ($match !== null && $match->id !== $coupon->id) {
             throw ValidationException::withMessages([
                 'code' => 'De korting met code "' . $validated['code'] . '" bestaat al.'

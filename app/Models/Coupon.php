@@ -26,7 +26,7 @@ class Coupon extends Model
      * @param string $code
      * @return Coupon|null
      */
-    public static function byCode(string $code): ?Coupon
+    public static function fromCode(string $code): ?Coupon
     {
         return self::where('code', '=', strtoupper($code))->first();
     }
