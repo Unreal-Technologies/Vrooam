@@ -27,7 +27,13 @@
                                     <x-primary-button class="mt-4">{{ __('Bewerken') }}</x-primary-button>
                                 </form>
                                 <br />
-                                --delete--
+                                <form method="post" action="{{ route('coupons.destroy', ['coupon' => $coupon->id]) }}">
+                                    @csrf
+                                    @method('delete')
+                                    <x-danger-button>
+                                        {{ __('Verwijderen') }}
+                                    </x-danger-button>
+                                </form>
                             </td>
                         </tr>
                         <tr>
