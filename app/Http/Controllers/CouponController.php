@@ -67,7 +67,7 @@ class CouponController extends Controller
         Coupon::factory()->create($validated);
         return redirect(route('coupons.index'));
     }
-    
+
     /**
      * Display the specified resource.
      */
@@ -85,7 +85,7 @@ class CouponController extends Controller
             'type' => old('type') ?? $coupon->type
         ]);
     }
-    
+
     /**
      * Update the specified resource in storage.
      */
@@ -97,7 +97,7 @@ class CouponController extends Controller
             'type' => 'required'
         ]);
         $validated['code'] = strtoupper($validated['code']);
-        
+
         $coupon = Coupon::fromId($id);
         $match = Coupon::fromCode($validated['code']);
         if ($match !== null && $match->id !== $coupon->id) {
@@ -111,16 +111,15 @@ class CouponController extends Controller
 
         return redirect(route('coupons.index'));
     }
-    
+
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(int $id)
     {
         $coupon = Coupon::fromId($id);
-        
-        foreach(Cart::fromCoupon($coupon) as $cart)
-        {
+
+        foreach (Cart::fromCoupon($coupon) as $cart) {
             $cart->coupon_id = null;
             $cart->save();
         }

@@ -86,7 +86,7 @@ class Cart extends Model
     {
         return self::where('id', '=', $id)->first();
     }
-    
+
     /**
      * @param Coupon $coupon
      * @return Collection

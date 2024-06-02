@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\Feature\Shop;
 
 use Tests\TestCase;
@@ -8,7 +9,7 @@ use App\Models\Product;
 class ProductTest extends TestCase
 {
     use Auth;
-    
+
     /**
      * @return void
      */
@@ -17,7 +18,7 @@ class ProductTest extends TestCase
         $response = $this->get('/products');
         $response->assertStatus(302);
     }
-    
+
     /**
      * @return void
      */
@@ -35,7 +36,7 @@ class ProductTest extends TestCase
         $response = $this->auth()->get('/products/create');
         $response->assertStatus(200);
     }
-    
+
     /**
      * @return void
      */
@@ -44,7 +45,7 @@ class ProductTest extends TestCase
         $response = $this->auth()->get('/products.editlist');
         $response->assertStatus(200);
     }
-    
+
     /**
      * @return void
      */
@@ -56,14 +57,13 @@ class ProductTest extends TestCase
             'text' => 'a simple text',
             'code' => 'a123'
         ]);
-        
+
         $this->assertAuthenticated();
         $response->assertRedirect(route('products.editlist', absolute: false));
-        
+
         $product = Product::where('code', '=', 'A123')->first();
         $this->assertFalse($product === null);
-        if($product !== null)
-        {
+        if ($product !== null) {
             $this ->assertEquals('A123', $product->code);
         }
     }
@@ -75,19 +75,18 @@ class ProductTest extends TestCase
     {
         $product = Product::where('code', '=', 'A123')->first();
         $this->assertFalse($product === null);
-        
-        if($product !== null)
-        {
-            $response = $this->auth()->put('products/'.$product->id, [
+
+        if ($product !== null) {
+            $response = $this->auth()->put('products/' . $product->id, [
                 'description' => 'test2',
                 'price' => 10,
                 'text' => 'a simple text',
                 'code' => 'A123'
             ]);
-            
+
             $this->assertAuthenticated();
             $response->assertRedirect(route('products.editlist', absolute: false));
-            
+
             $new = Product::fromId($product->id);
             $this->assertEquals('test2', $new->description);
         }
@@ -100,11 +99,11 @@ class ProductTest extends TestCase
     {
         $p1 = Product::fromId(1);
         $p2 = Product::fromId(2);
-        
+
         $this->assertFalse($p1 === null);
         $this->assertTrue($p2 === null);
     }
-    
+
     /**
      * @return void
      */
@@ -113,13 +112,12 @@ class ProductTest extends TestCase
         $p1 = Product::fromCode('a123');
         $p2 = Product::fromCode('A123');
         $p3 = Product::fromCode('b123');
-        
+
         $this->assertFalse($p1 === null);
         $this->assertFalse($p2 === null);
         $this->assertTrue($p3 === null);
-        
     }
-    
+
     /**
      * @return void
      */
@@ -127,14 +125,13 @@ class ProductTest extends TestCase
     {
         $product = Product::where('code', '=', 'A123')->first();
         $this->assertFalse($product === null);
-        
-        if($product !== null)
-        {
-            $response = $this->auth()->delete('products/'.$product->id);
-            
+
+        if ($product !== null) {
+            $response = $this->auth()->delete('products/' . $product->id);
+
             $this->assertAuthenticated();
             $response->assertRedirect(route('products.editlist', absolute: false));
-            
+
             $new = Product::fromId($product->id);
             $this->assertTrue($new === null);
         }

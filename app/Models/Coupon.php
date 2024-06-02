@@ -10,7 +10,7 @@ use App\Logic\CouponTypes;
 class Coupon extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = ['code', 'discount', 'type'];
 
     /**
