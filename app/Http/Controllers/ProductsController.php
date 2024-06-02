@@ -28,7 +28,7 @@ class ProductsController extends Controller
             'products' => Product::all()
         ]);
     }
-    
+
     /**
      * Show the form for creating a new resource.
      */
@@ -57,7 +57,7 @@ class ProductsController extends Controller
             'price' => 'required|numeric|gt:0',
             'text' => 'required'
         ]);
-        
+
         Product::factory()->create($validated);
         return redirect(route('products.editlist'));
     }
@@ -95,7 +95,7 @@ class ProductsController extends Controller
         $product = Product::fromId($id);
         $product->update($validated);
         $product->save();
-        
+
         return redirect(route('products.editlist'));
     }
 

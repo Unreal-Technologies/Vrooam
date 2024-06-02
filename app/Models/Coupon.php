@@ -55,7 +55,7 @@ class Coupon extends Model
                 return $text . ' (' . number_format($this->discount, 2, ',', '.') . ' %)';
         }
     }
-    
+
     /**
      * @return string
      */
