@@ -9,7 +9,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UserTest extends TestCase
 {
-    use Auth, RefreshDatabase;
+    use Auth;
+    use RefreshDatabase;
 
     /**
      * @return void
@@ -21,14 +22,14 @@ class UserTest extends TestCase
         $cart = $this->user->cart();
         $this->assertFalse($cart === null);
     }
-    
+
     /**
      * @return void
      */
     public function testUserModelFromId(): void
     {
         $this -> auth();
-        
+
         $user = User::fromId($this->user->id);
         $this->assertFalse($user === null);
     }
